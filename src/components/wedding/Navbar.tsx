@@ -45,9 +45,7 @@ const Navbar = () => {
       return setScrolled(scroll > 5);
     };
 
-    if (router.pathname === '/') {
-      window.addEventListener('scroll', handleScroll);
-    }
+    window.addEventListener('scroll', handleScroll);
 
     if (router.pathname === '/presentes') {
       setIsActiveIndex(4);

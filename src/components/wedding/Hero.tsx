@@ -48,55 +48,6 @@ const Hero = () => {
       <div className="absolute top-[-315px] right-0 rotate-180">
         <Image src="/images/asset4.png" alt="Flores" width="600" height="600" />
       </div>
-      {/* <div className="absolute top-0 left-0 w-64 h-64 opacity-10">
-        <svg viewBox="0 0 200 200" className="w-full h-full text-accent">
-          <circle cx="20" cy="80" r="3" fill="currentColor" opacity="0.5" />
-          <path
-            d="M10,180 Q50,100 30,20"
-            stroke="currentColor"
-            fill="none"
-            strokeWidth="1"
-            opacity="0.4"
-          />
-          <path
-            d="M30,190 Q70,110 50,30"
-            stroke="currentColor"
-            fill="none"
-            strokeWidth="1"
-            opacity="0.3"
-          />
-          <ellipse
-            cx="40"
-            cy="60"
-            rx="15"
-            ry="25"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="0.5"
-            opacity="0.3"
-            transform="rotate(-30 40 60)"
-          />
-        </svg>
-      </div>
-      <div className="absolute bottom-0 right-0 w-64 h-64 opacity-10 rotate-180">
-        <svg viewBox="0 0 200 200" className="w-full h-full text-accent">
-          <circle cx="20" cy="80" r="3" fill="currentColor" opacity="0.5" />
-          <path
-            d="M10,180 Q50,100 30,20"
-            stroke="currentColor"
-            fill="none"
-            strokeWidth="1"
-            opacity="0.4"
-          />
-          <path
-            d="M30,190 Q70,110 50,30"
-            stroke="currentColor"
-            fill="none"
-            strokeWidth="1"
-            opacity="0.3"
-          />
-        </svg>
-      </div> */}
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
