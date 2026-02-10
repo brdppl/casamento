@@ -20,7 +20,7 @@ export default function GiftsPage() {
         />
         <meta
           property="og:image"
-          content="https://casamentoisaebe.com.br/monograma.svg"
+          content="https://casamentoisaebe.com.br/images/monograma.png"
         />
         <meta
           name="twitter:title"
@@ -32,7 +32,7 @@ export default function GiftsPage() {
         />
         <meta
           name="twitter:image"
-          content="https://casamentoisaebe.com.br/monograma.svg"
+          content="https://casamentoisaebe.com.br/images/monograma.png"
         />
       </Head>
       <div className="min-h-screen bg-background">

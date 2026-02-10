@@ -31,7 +31,7 @@ export default function Home() {
         />
         <meta
           property="og:image"
-          content="https://casamentoisaebe.com.br/monograma.svg"
+          content="https://casamentoisaebe.com.br/images/monograma.png"
         />
         <meta name="twitter:title" content="Casamento Isa & Be" />
         <meta
@@ -40,7 +40,7 @@ export default function Home() {
         />
         <meta
           name="twitter:image"
-          content="https://casamentoisaebe.com.br/monograma.svg"
+          content="https://casamentoisaebe.com.br/images/monograma.png"
         />
       </Head>
       <div className="min-h-screen bg-background">

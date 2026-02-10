@@ -87,10 +87,10 @@ const RSVPForm = () => {
       className="relative py-24 md:py-32 px-6 overflow-hidden"
     >
       <div className="absolute top-0 right-[-150px] rotate-[200deg] z-0">
-        <Image src="/asset1.png" alt="Flores" width="400" height="400" />
+        <Image src="/images/asset1.png" alt="Flores" width="400" height="400" />
       </div>
       <div className="absolute bottom-0 left-[-150px] rotate-[10deg] z-0">
-        <Image src="/asset1.png" alt="Flores" width="400" height="400" />
+        <Image src="/images/asset1.png" alt="Flores" width="400" height="400" />
       </div>
 
       <div className="container relative mx-auto max-w-lg">

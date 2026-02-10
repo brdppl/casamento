@@ -35,10 +35,10 @@ const Footer = () => {
   return (
     <footer className="relative py-16 px-6 border-t border-border overflow-hidden">
       <div className="absolute bottom-[-315px] left-0">
-        <Image src="/asset4.png" alt="Flores" width="550" height="550" />
+        <Image src="/images/asset4.png" alt="Flores" width="550" height="550" />
       </div>
       <div className="absolute bottom-[-315px] right-0 rotate-180">
-        <Image src="/asset4.png" alt="Flores" width="550" height="550" />
+        <Image src="/images/asset4.png" alt="Flores" width="550" height="550" />
       </div>
 
       <div className="container relative mx-auto max-w-3xl text-center">

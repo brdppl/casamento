@@ -9,7 +9,7 @@ const OurStory = () => {
       className="relative py-24 md:py-32 px-6 overflow-hidden"
     >
       <div className="absolute bottom-0 left-[-300px] rotate-[340deg] z-0">
-        <Image src="/asset1.png" alt="Flores" width="700" height="700" />
+        <Image src="/images/asset1.png" alt="Flores" width="700" height="700" />
       </div>
 
       <div className="container relative mx-auto max-w-3xl text-center">

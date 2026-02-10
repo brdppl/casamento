@@ -31,7 +31,7 @@ const GiftList = () => {
       className="relative py-24 md:py-32 px-6 bg-secondary/30 overflow-hidden"
     >
       <div className="absolute bottom-0 right-[-300px] rotate-[170deg] z-0">
-        <Image src="/asset1.png" alt="Flores" width="700" height="700" />
+        <Image src="/images/asset1.png" alt="Flores" width="700" height="700" />
       </div>
 
       <div className="container relative mx-auto max-w-3xl">
@@ -58,7 +58,7 @@ const GiftList = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-100px' }}
               transition={{ duration: 0.8, delay: i * 0.15 }}
-              className="bg-card bg-[url('/asset3.png')] bg-no-repeat bg-cover bg-center border border-border rounded-sm p-8 text-center hover:shadow-md transition-shadow"
+              className="bg-card bg-[url('/images/asset3.png')] bg-no-repeat bg-cover bg-center border border-border rounded-sm p-8 text-center hover:shadow-md transition-shadow"
             >
               <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-accent/10 mb-5">
                 <gift.icon className="w-6 h-6 text-accent" />

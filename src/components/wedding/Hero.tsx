@@ -43,10 +43,10 @@ const Hero = () => {
     >
       {/* Decorative botanical elements */}
       <div className="absolute top-[-315px] left-0">
-        <Image src="/asset4.png" alt="Flores" width="600" height="600" />
+        <Image src="/images/asset4.png" alt="Flores" width="600" height="600" />
       </div>
       <div className="absolute top-[-315px] right-0 rotate-180">
-        <Image src="/asset4.png" alt="Flores" width="600" height="600" />
+        <Image src="/images/asset4.png" alt="Flores" width="600" height="600" />
       </div>
       {/* <div className="absolute top-0 left-0 w-64 h-64 opacity-10">
         <svg viewBox="0 0 200 200" className="w-full h-full text-accent">

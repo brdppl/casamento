@@ -97,7 +97,7 @@ const Navbar = () => {
           onClick={() => scrollTo('#inicio')}
           className="font-script text-2xl text-accent"
         >
-          <Image src="/logo.png" alt="I & B" width="70" height="70" />
+          <Image src="/images/logo.png" alt="I & B" width="70" height="70" />
         </button>
 
         {/* Desktop */}
