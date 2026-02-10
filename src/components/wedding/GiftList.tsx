@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Gift, CreditCard, ExternalLink } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 const gifts = [
@@ -8,7 +9,7 @@ const gifts = [
     title: 'Lista de Presentes',
     description:
       'Acesse nossa lista de presentes e escolha algo especial para nós.',
-    link: '/gifts',
+    link: '/presentes',
     linkText: 'Ver lista de presentes',
     linkTarget: '_self',
   },
@@ -25,8 +26,15 @@ const gifts = [
 
 const GiftList = () => {
   return (
-    <section id="presentes" className="py-24 md:py-32 px-6 bg-secondary/30">
-      <div className="container mx-auto max-w-3xl">
+    <section
+      id="presentes"
+      className="relative py-24 md:py-32 px-6 bg-secondary/30 overflow-hidden"
+    >
+      <div className="absolute bottom-0 right-[-300px] rotate-[170deg] z-0">
+        <Image src="/asset1.png" alt="Flores" width="700" height="700" />
+      </div>
+
+      <div className="container relative mx-auto max-w-3xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -34,10 +42,10 @@ const GiftList = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="font-script text-5xl md:text-6xl text-foreground mb-4">
+          <h2 className="font-script text-7xl md:text-8xl text-foreground mb-4">
             Lista de Presentes
           </h2>
-          <p className="font-sans-elegant text-xs tracking-[0.3em] uppercase text-muted-foreground">
+          <p className="font-sans-elegant text-xs tracking-[0.3em] uppercase text-accent">
             Sua presença é o melhor presente
           </p>
         </motion.div>
@@ -50,7 +58,7 @@ const GiftList = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-100px' }}
               transition={{ duration: 0.8, delay: i * 0.15 }}
-              className="bg-card border border-border rounded-sm p-8 text-center hover:shadow-md transition-shadow"
+              className="bg-card bg-[url('/asset3.png')] bg-no-repeat bg-cover bg-center border border-border rounded-sm p-8 text-center hover:shadow-md transition-shadow"
             >
               <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-accent/10 mb-5">
                 <gift.icon className="w-6 h-6 text-accent" />

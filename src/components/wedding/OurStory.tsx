@@ -1,10 +1,18 @@
 import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
+import Image from 'next/image';
 
 const OurStory = () => {
   return (
-    <section id="historia" className="py-24 md:py-32 px-6">
-      <div className="container mx-auto max-w-3xl text-center">
+    <section
+      id="historia"
+      className="relative py-24 md:py-32 px-6 overflow-hidden"
+    >
+      <div className="absolute bottom-0 left-[-300px] rotate-[340deg] z-0">
+        <Image src="/asset1.png" alt="Flores" width="700" height="700" />
+      </div>
+
+      <div className="container relative mx-auto max-w-3xl text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -17,10 +25,10 @@ const OurStory = () => {
             <div className="w-12 h-[1px] bg-accent/40" />
           </div>
 
-          <h2 className="font-script text-5xl md:text-6xl text-foreground mb-4">
+          <h2 className="font-script text-7xl md:text-8xl text-foreground mb-4">
             Nossa História
           </h2>
-          <p className="font-sans-elegant text-xs tracking-[0.3em] uppercase text-muted-foreground mb-12">
+          <p className="font-sans-elegant text-xs tracking-[0.3em] uppercase text-accent mb-12">
             Como tudo começou
           </p>
         </motion.div>
@@ -33,17 +41,23 @@ const OurStory = () => {
           className="space-y-6 text-lg leading-relaxed text-foreground/80"
         >
           <p>
-            Algumas histórias são escritas nas estrelas. A nossa começou de um
-            jeito simples, com um olhar, um sorriso, e a certeza de que algo
-            especial estava nascendo.
+            Nossa história começou de forma inesperada, mas daquelas que parecem
+            escritas pelo destino. Em meio a conversas despretensiosas e
+            risadas, nos vimos pela primeira vez — e a conexão foi imediata,
+            daquelas que a gente sente sem precisar explicar.
           </p>
           <p>
-            Desde o primeiro encontro, soubemos que tínhamos algo raro e bonito.
-            Cada momento juntos só fortaleceu o que sentimos um pelo outro.
+            Ao longo desses 2 anos juntos, vivemos momentos inesquecíveis,
+            superamos desafios, comemoramos conquistas e descobrimos, a cada
+            dia, que fazemos muito mais sentido lado a lado. Aprendemos a ser
+            apoio, risada, abraço e lar um para o outro.
           </p>
           <p>
-            Agora, estamos prontos para dar o próximo passo e celebrar nosso
-            amor com as pessoas mais importantes das nossas vidas — vocês.
+            Hoje, temos a certeza de que aquela conexão lá do começo tinha um
+            propósito: nos trazer até aqui. É com muito amor e alegria que
+            estamos prontos para escrever os próximos capítulos da nossa
+            história e queremos celebrar esse momento especial com as pessoas
+            mais importantes das nossas vidas — vocês.
           </p>
         </motion.div>
 

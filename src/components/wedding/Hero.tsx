@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 const WEDDING_DATE = new Date('2027-05-15T19:00:00');
 
@@ -19,7 +20,7 @@ const CountdownUnit = ({ value, label }: { value: number; label: string }) => (
     <span className="text-4xl md:text-6xl font-light text-foreground tabular-nums">
       {String(value).padStart(2, '0')}
     </span>
-    <span className="font-sans-elegant text-xs tracking-[0.3em] uppercase text-muted-foreground mt-2">
+    <span className="font-sans-elegant text-xs tracking-[0.3em] uppercase text-accent mt-2">
       {label}
     </span>
   </div>
@@ -41,7 +42,13 @@ const Hero = () => {
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-6"
     >
       {/* Decorative botanical elements */}
-      <div className="absolute top-0 left-0 w-64 h-64 opacity-10">
+      <div className="absolute top-[-315px] left-0">
+        <Image src="/asset4.png" alt="Flores" width="600" height="600" />
+      </div>
+      <div className="absolute top-[-315px] right-0 rotate-180">
+        <Image src="/asset4.png" alt="Flores" width="600" height="600" />
+      </div>
+      {/* <div className="absolute top-0 left-0 w-64 h-64 opacity-10">
         <svg viewBox="0 0 200 200" className="w-full h-full text-accent">
           <circle cx="20" cy="80" r="3" fill="currentColor" opacity="0.5" />
           <path
@@ -89,7 +96,7 @@ const Hero = () => {
             opacity="0.3"
           />
         </svg>
-      </div>
+      </div> */}
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -114,17 +121,17 @@ const Hero = () => {
         </motion.div>
 
         {/* Names */}
-        <h1 className="font-script text-6xl md:text-8xl lg:text-9xl text-foreground leading-tight">
+        <h1 className="font-script text-8xl md:text-9xl lg:text-[12rem]/[.65] text-foreground leading-tight">
           Isadora
         </h1>
         <div className="flex items-center justify-center gap-4 my-2">
           <div className="w-12 h-[1px] bg-accent/40" />
-          <span className="font-script text-3xl md:text-4xl text-accent">
+          <span className="font-exception text-2xl md:text-4xl text-accent">
             &
           </span>
           <div className="w-12 h-[1px] bg-accent/40" />
         </div>
-        <h1 className="font-script text-6xl md:text-8xl lg:text-9xl text-foreground leading-tight">
+        <h1 className="font-script text-8xl md:text-9xl lg:text-[12rem]/[.65] text-foreground leading-tight">
           Bernardo
         </h1>
 
@@ -133,7 +140,7 @@ const Hero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 1 }}
-          className="font-sans-elegant text-sm tracking-[0.4em] uppercase text-muted-foreground mt-8"
+          className="font-sans-elegant text-sm tracking-[0.4em] uppercase text-accent mt-8"
         >
           15 de Maio de 2027
         </motion.p>

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { MapPin, Clock, Shirt } from 'lucide-react';
+import Image from 'next/image';
 
 const DetailCard = ({
   icon: Icon,
@@ -17,7 +18,7 @@ const DetailCard = ({
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: '-100px' }}
     transition={{ duration: 0.8, delay }}
-    className="bg-card border border-border rounded-sm p-8 text-center"
+    className="bg-card bg-[url('/asset3.png')] bg-no-repeat bg-cover bg-center border border-border rounded-sm p-8 text-center"
   >
     <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent/10 mb-5">
       <Icon className="w-5 h-5 text-accent" />
@@ -31,8 +32,18 @@ const DetailCard = ({
 
 const EventDetails = () => {
   return (
-    <section id="evento" className="py-24 md:py-32 px-6 bg-secondary/30">
-      <div className="container mx-auto max-w-5xl">
+    <section
+      id="evento"
+      className="relative py-24 md:py-32 px-6 bg-secondary/30"
+    >
+      <div className="absolute top-0 right-0 rotate-90 z-0 opacity-70">
+        <Image src="/asset2.png" alt="Brilhos" width="300" height="300" />
+      </div>
+      <div className="absolute bottom-0 left-0 rotate-[270deg] z-0 opacity-70">
+        <Image src="/asset2.png" alt="Brilhos" width="300" height="300" />
+      </div>
+
+      <div className="container relative mx-auto max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -40,10 +51,10 @@ const EventDetails = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="font-script text-5xl md:text-6xl text-foreground mb-4">
+          <h2 className="font-script text-7xl md:text-8xl text-foreground mb-4">
             Celebração
           </h2>
-          <p className="font-sans-elegant text-xs tracking-[0.3em] uppercase text-muted-foreground">
+          <p className="font-sans-elegant text-xs tracking-[0.3em] uppercase text-accent">
             Todos os detalhes do nosso grande dia
           </p>
         </motion.div>

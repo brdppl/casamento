@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import Image from 'next/image';
 
 const rsvpSchema = z.object({
   name: z
@@ -68,7 +69,7 @@ const RSVPForm = () => {
           className="container mx-auto max-w-lg text-center"
         >
           <CheckCircle className="w-16 h-16 text-accent mx-auto mb-6" />
-          <h2 className="font-script text-5xl text-foreground mb-4">
+          <h2 className="font-script text-7xl text-foreground mb-4">
             Obrigado!
           </h2>
           <p className="text-foreground/70 font-sans-elegant">
@@ -81,8 +82,18 @@ const RSVPForm = () => {
   }
 
   return (
-    <section id="presenca" className="py-24 md:py-32 px-6">
-      <div className="container mx-auto max-w-lg">
+    <section
+      id="presenca"
+      className="relative py-24 md:py-32 px-6 overflow-hidden"
+    >
+      <div className="absolute top-0 right-[-150px] rotate-[200deg] z-0">
+        <Image src="/asset1.png" alt="Flores" width="400" height="400" />
+      </div>
+      <div className="absolute bottom-0 left-[-150px] rotate-[10deg] z-0">
+        <Image src="/asset1.png" alt="Flores" width="400" height="400" />
+      </div>
+
+      <div className="container relative mx-auto max-w-lg">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -90,10 +101,10 @@ const RSVPForm = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <h2 className="font-script text-5xl md:text-6xl text-foreground mb-4">
+          <h2 className="font-script text-7xl md:text-8xl text-foreground mb-4">
             Confirme sua Presença
           </h2>
-          <p className="font-sans-elegant text-xs tracking-[0.3em] uppercase text-muted-foreground">
+          <p className="font-sans-elegant text-xs tracking-[0.3em] uppercase text-accent">
             Ficaremos felizes com a sua presença
           </p>
         </motion.div>
