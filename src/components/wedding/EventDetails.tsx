@@ -92,12 +92,12 @@ const EventDetails = () => {
             </p>
             <p className="mt-2">Recepção logo após a cerimônia</p>
             <p className="mt-3 text-xs text-muted-foreground">
-              Pedimos que cheguem com 30 minutos de antecedência
+              Pedimos que seja pontual
             </p>
           </DetailCard>
 
           <DetailCard icon={Shirt} title="Dress Code" delay={0.3}>
-            <p className="font-semibold">Traje Passeio Completo</p>
+            <p className="font-semibold">Traje Social</p>
             <p className="mt-2">
               Homens: terno ou blazer com calça social. Mulheres: vestido midi
               ou longo

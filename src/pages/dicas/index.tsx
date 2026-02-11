@@ -1,17 +1,14 @@
 import { motion } from 'framer-motion';
 import {
-  Hotel,
-  Home,
   MapPin,
   Shirt,
-  Clock,
   CheckCircle,
   AlertTriangle,
   PartyPopper,
   Car,
   Lightbulb,
   ExternalLink,
-  CircleAlert,
+  Gem,
 } from 'lucide-react';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -94,7 +91,7 @@ const neighboorhoods = [
 const tips = [
   {
     icon: Shirt,
-    title: 'Dress Code: Passeio Completo',
+    title: 'Dress Code: Traje Social',
     description:
       'Elegância é a palavra-chave! Homens: terno ou blazer com calça social. Mulheres: vestido midi ou longo, conjuntos elegantes.',
     highlight: true,
@@ -110,13 +107,13 @@ const tips = [
     icon: CheckCircle,
     title: 'Confirme sua Presença',
     description:
-      'Confirme pelo nosso site até 30 dias antes do casamento para nos ajudar com o planejamento.',
+      'Confirme pelo nosso site até o dia 30 de abril de 2027 para nos ajudar com o planejamento.',
   },
   {
-    icon: Clock,
-    title: 'Pontualidade',
+    icon: Gem,
+    title: 'Cerimônia',
     description:
-      'A cerimônia começa às 19h em ponto. Chegue com pelo menos 30 minutos de antecedência para se acomodar.',
+      'A cerimônia será ao ar livre então veja como estará o clima no dia, e ela irá começar às 19h em ponto. Não se atrase.',
   },
   {
     icon: Car,
