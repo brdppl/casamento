@@ -9,7 +9,6 @@ import {
   Armchair,
   Bath,
   Plane,
-  Copy,
 } from 'lucide-react';
 import Image from 'next/image';
 import {
@@ -219,27 +218,29 @@ export default function GiftsPage() {
       </Head>
       <div className="min-h-screen bg-background">
         {/* Hero */}
-        <section className="pt-32 pb-16 px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/10 mb-6">
-              <Gift className="w-7 h-7 text-accent" />
-            </div>
-            <h1 className="font-script text-7xl md:text-8xl text-foreground mb-4">
-              Lista de Presentes
-            </h1>
-            <p className="font-sans-elegant text-sm md:text-base text-accent max-w-lg mx-auto leading-relaxed">
-              Sua presença é o nosso maior presente! Mas se desejar nos
-              presentear, preparamos esta lista com muito carinho.
-            </p>
-          </motion.div>
-        </section>
+        <div className="bg-secondary/30 pt-32 pb-16 px-6">
+          <div className="container mx-auto max-w-4xl text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/10 mb-6">
+                <Gift className="w-7 h-7 text-accent" />
+              </div>
+              <h1 className="font-script text-7xl md:text-8xl text-foreground mb-4">
+                Lista de Presentes
+              </h1>
+              <p className="font-sans-elegant text-sm md:text-base text-accent max-w-lg mx-auto leading-relaxed">
+                Sua presença é o nosso maior presente! Mas se desejar nos
+                presentear, preparamos esta lista com muito carinho.
+              </p>
+            </motion.div>
+          </div>
+        </div>
 
         {/* PIX Section */}
-        <section className="px-6 pb-12">
+        <section className="px-6 py-20">
           <div className="container mx-auto max-w-2xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

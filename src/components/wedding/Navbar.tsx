@@ -6,10 +6,10 @@ import Image from 'next/image';
 
 const links = [
   { label: 'Início', href: '#inicio' },
-  { label: 'Nossa História', href: '#historia' },
-  { label: 'Evento', href: '#evento' },
   { label: 'Presença', href: '#presenca' },
-  { label: 'Presentes', href: '#presentes' },
+  { label: 'Dicas', href: '/dicas' },
+  { label: 'Recados', href: '/recados' },
+  { label: 'Presentes', href: '/presentes' },
 ];
 
 const Navbar = () => {
@@ -30,16 +30,12 @@ const Navbar = () => {
       const divGiftList =
         document.getElementById('presentes')?.offsetTop! - 150;
 
-      if (scroll < divStory) {
-        setIsActiveIndex(0);
-      } else if (scroll > divStory && scroll < divEventDetails) {
-        setIsActiveIndex(1);
-      } else if (scroll > divEventDetails && scroll < divRSVP) {
-        setIsActiveIndex(2);
-      } else if (scroll > divRSVP && scroll < divGiftList) {
-        setIsActiveIndex(3);
-      } else {
-        setIsActiveIndex(4);
+      if (router.pathname === '/') {
+        if (scroll > divRSVP && scroll < divGiftList) {
+          setIsActiveIndex(1);
+        } else {
+          setIsActiveIndex(0);
+        }
       }
 
       return setScrolled(scroll > 5);
@@ -47,16 +43,24 @@ const Navbar = () => {
 
     window.addEventListener('scroll', handleScroll);
 
-    if (router.pathname === '/presentes') {
-      setIsActiveIndex(4);
-    }
+    links.forEach((el, i) => {
+      if (router.pathname === el.href) {
+        setIsActiveIndex(i);
+      }
+    });
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, [router]);
 
   const scrollTo = (href: string) => {
-    setHref(href);
     setMobileOpen(false);
+
+    if (href.includes('/') && !href.includes('#')) {
+      router.push(href);
+      return;
+    }
+
+    setHref(href);
 
     if (router.pathname !== '/') {
       router.push('/');

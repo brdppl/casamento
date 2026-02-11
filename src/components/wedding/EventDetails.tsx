@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
-import { MapPin, Clock, Shirt } from 'lucide-react';
+import { MapPin, Clock, Shirt, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const DetailCard = ({
   icon: Icon,
@@ -74,14 +75,15 @@ const EventDetails = () => {
             <p className="font-semibold">Casa Nossa Eventos</p>
             <p>Av. Assis Brasil, 1144 - Santa Maria Goretti</p>
             <p>Porto Alegre - RS</p>
-            <a
+            <Link
               href="https://maps.app.goo.gl/iMm3YfcJeiK9qhPc7"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block mt-3 text-accent hover:text-accent/80 underline underline-offset-4 transition-colors"
+              className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-sans-elegant text-sm underline underline-offset-4 transition-colors"
             >
-              Ver no mapa →
-            </a>
+              Ver no mapa
+              <ExternalLink className="w-3 h-3" />
+            </Link>
           </DetailCard>
 
           <DetailCard icon={Clock} title="Horário" delay={0.15}>
@@ -95,12 +97,13 @@ const EventDetails = () => {
           </DetailCard>
 
           <DetailCard icon={Shirt} title="Dress Code" delay={0.3}>
-            <p className="font-semibold">Traje Esporte Fino</p>
+            <p className="font-semibold">Traje Passeio Completo</p>
             <p className="mt-2">
-              Cores sugeridas: tons neutros, azul marinho, dourado
+              Homens: terno ou blazer com calça social. Mulheres: vestido midi
+              ou longo
             </p>
             <p className="mt-3 text-xs text-muted-foreground">
-              Evitar branco e off-white, por favor
+              Por favor, evite branco, off-white, creme e azul marinho
             </p>
           </DetailCard>
         </div>

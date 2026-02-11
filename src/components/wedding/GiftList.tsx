@@ -1,7 +1,15 @@
 import { motion } from 'framer-motion';
-import { Gift, CreditCard, ExternalLink } from 'lucide-react';
+import { Gift, CreditCard, MoveRight, Copy } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { useState } from 'react';
+
+const PIXKey = 'b83367f9-5b5f-4e2b-aed2-960e559a3aed';
 
 const gifts = [
   {
@@ -17,14 +25,28 @@ const gifts = [
     icon: CreditCard,
     title: 'PIX',
     description:
-      'Se preferir, contribua com qualquer valor via PIX. Chave a ser informada em breve.',
+      'Se preferir, contribua com qualquer valor via PIX. Chave aleatória abaixo.',
     link: null,
-    linkText: 'Chave PIX em breve',
+    linkText: PIXKey,
     linkTarget: '_blank',
   },
 ];
 
 const GiftList = () => {
+  const [open, setOpen] = useState(false);
+  const [tooltipText, setTooltipText] = useState('Copiar chave PIX');
+
+  const handleCopyPIXKey = () => {
+    navigator.clipboard.writeText(PIXKey);
+    setTooltipText('Copiado!');
+    setOpen(true);
+
+    setTimeout(() => {
+      setOpen(false);
+      setTooltipText('Copiar chave PIX');
+    }, 2000);
+  };
+
   return (
     <section
       id="presentes"
@@ -77,12 +99,34 @@ const GiftList = () => {
                   className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-sans-elegant text-sm underline underline-offset-4 transition-colors"
                 >
                   {gift.linkText}
-                  <ExternalLink className="w-3 h-3" />
+                  <MoveRight className="w-3 h-3" />
                 </Link>
               ) : (
-                <span className="text-muted-foreground font-sans-elegant text-sm">
-                  {gift.linkText}
-                </span>
+                <Tooltip
+                  open={open}
+                  onOpenChange={(nextOpen) => {
+                    setOpen(nextOpen);
+                  }}
+                  delayDuration={100}
+                >
+                  <TooltipTrigger asChild>
+                    <span
+                      className="inline-flex items-center gap-2 text-muted-foreground hover:text-muted-foreground/80 font-sans-elegant text-sm font-bold hover:cursor-pointer"
+                      onClick={handleCopyPIXKey}
+                    >
+                      {gift.linkText}
+                      <Copy className="w-3 h-3" />
+                    </span>
+                  </TooltipTrigger>
+
+                  <TooltipContent
+                    className="bg-white"
+                    side="top"
+                    align="center"
+                  >
+                    {tooltipText}
+                  </TooltipContent>
+                </Tooltip>
               )}
             </motion.div>
           ))}

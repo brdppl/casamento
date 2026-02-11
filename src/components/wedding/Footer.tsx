@@ -7,6 +7,11 @@ const Footer = () => {
   const router = useRouter();
 
   const scrollTo = (href: string) => {
+    if (href.includes('/') && !href.includes('#')) {
+      router.push(href);
+      return;
+    }
+
     setHref(href);
 
     if (router.pathname !== '/') {
@@ -54,10 +59,10 @@ const Footer = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8">
           {[
             { label: 'Início', href: '#inicio' },
-            { label: 'História', href: '#historia' },
-            { label: 'Evento', href: '#evento' },
             { label: 'Presença', href: '#presenca' },
-            { label: 'Presentes', href: '#presentes' },
+            { label: 'Dicas', href: '/dicas' },
+            { label: 'Recados', href: '/recados' },
+            { label: 'Presentes', href: '/presentes' },
           ].map((link) => (
             <button
               key={link.href}
