@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, CheckCircle } from 'lucide-react';
+import { Send, CheckCircle, Loader2 } from 'lucide-react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,15 +15,11 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
+import { confirmPresence } from '@/api/lib/RSVP';
 
 const rsvpSchema = z.object({
   name: z
@@ -32,32 +28,43 @@ const rsvpSchema = z.object({
     .min(2, 'Nome deve ter pelo menos 2 caracteres')
     .max(100),
   email: z.string().trim().email('E-mail inválido').max(255),
-  // guests: z.string().min(1, 'Selecione o número de acompanhantes'),
-  dietary: z.string().max(500).optional(),
+  confirmed: z.enum(['Sim', 'Não'], {
+    errorMap: () => ({ message: 'Selecione uma opção' }),
+  }),
+  restrictions: z.string().max(500).optional(),
 });
 
 type RSVPData = z.infer<typeof rsvpSchema>;
 
 const RSVPForm = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<RSVPData>({
     resolver: zodResolver(rsvpSchema),
-    defaultValues: { name: '', email: '', dietary: '' },
+    defaultValues: { name: '', email: '', confirmed: 'Sim', restrictions: '' },
   });
 
   const onSubmit = (data: RSVPData) => {
-    // Save to localStorage
-    const existing = JSON.parse(localStorage.getItem('wedding-rsvps') || '[]');
-    existing.push({ ...data, timestamp: new Date().toISOString() });
-    localStorage.setItem('wedding-rsvps', JSON.stringify(existing));
+    setIsLoading(true);
 
-    setSubmitted(true);
-    toast({
-      title: 'Presença confirmada! 🎉',
-      description: `Obrigado, ${data.name.split(' ')[0]}! Estamos ansiosos para celebrar com você.`,
-    });
+    if (!isLoading) {
+      confirmPresence(data)
+        .then(({ title, message }) => {
+          setSubmitted(true);
+          toast({ title, description: message });
+        })
+        .catch((error) => {
+          toast({
+            title: 'Algo deu errado',
+            description: error.data.message,
+          });
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
   };
 
   if (submitted) {
@@ -72,10 +79,14 @@ const RSVPForm = () => {
           <h2 className="font-script text-7xl text-foreground mb-4">
             Obrigado!
           </h2>
-          <p className="text-foreground/70 font-sans-elegant">
-            Sua presença foi confirmada. Mal podemos esperar para celebrar com
-            você!
-          </p>
+          {form.getValues('confirmed') === 'Sim' ? (
+            <p className="text-foreground/70 font-sans-elegant">
+              Sua presença foi confirmada. Mal podemos esperar para celebrar com
+              você!
+            </p>
+          ) : (
+            <></>
+          )}
         </motion.div>
       </section>
     );
@@ -158,38 +169,49 @@ const RSVPForm = () => {
                 )}
               />
 
-              {/* <FormField
+              <FormField
                 control={form.control}
-                name="guests"
+                name="confirmed"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-sans-elegant text-sm tracking-wide">
-                      Acompanhantes
+                      Você vai comparecer?
                     </FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="bg-card border-border">
-                          <SelectValue placeholder="Quantos acompanhantes?" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="0">Somente eu</SelectItem>
-                        <SelectItem value="1">+1 acompanhante</SelectItem>
-                        <SelectItem value="2">+2 acompanhantes</SelectItem>
-                        <SelectItem value="3">+3 acompanhantes</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <div className="flex items-center space-x-4">
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Sim" id="attending-yes" />
+                            <Label
+                              htmlFor="attending-yes"
+                              className="font-sans-elegant cursor-pointer"
+                            >
+                              Sim, vou!
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Não" id="attending-no" />
+                            <Label
+                              htmlFor="attending-no"
+                              className="font-sans-elegant cursor-pointer"
+                            >
+                              Não poderei ir
+                            </Label>
+                          </div>
+                        </div>
+                      </RadioGroup>
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
-              /> */}
+              />
 
               <FormField
                 control={form.control}
-                name="dietary"
+                name="restrictions"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-sans-elegant text-sm tracking-wide">
@@ -210,10 +232,20 @@ const RSVPForm = () => {
 
               <Button
                 type="submit"
+                disabled={isLoading}
                 className="w-full gold-gradient text-accent-foreground font-sans-elegant tracking-widest uppercase text-sm py-6 hover:opacity-90 transition-opacity"
               >
-                <Send className="w-4 h-4 mr-2" />
-                Confirmar Presença
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Processando...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4 mr-2" />
+                    Confirmar Presença
+                  </>
+                )}
               </Button>
             </form>
           </Form>
