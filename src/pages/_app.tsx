@@ -8,10 +8,22 @@ import '@/styles/App.css';
 import Navbar from '@/components/wedding/Navbar';
 import Footer from '@/components/wedding/Footer';
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
+import { hello } from '@/api/lib/hello';
 
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [entered, setEntered] = useState(false);
+
+  useEffect(() => {
+    if (!entered) {
+      hello().then(() => {
+        setEntered(true);
+      });
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Head>
