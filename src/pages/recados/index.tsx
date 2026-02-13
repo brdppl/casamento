@@ -119,25 +119,6 @@ const Mensagens = () => {
             </motion.div>
           </div>
         </div>
-        {/* <div className="pt-32 bg-muted-foreground/5 border-b border-gold/20">
-          <div className="container mx-auto px-6 py-8 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/10 mb-6">
-                <MessageCircleHeart className="w-7 h-7 text-accent" />
-              </div>
-              <h1 className="font-script text-7xl md:text-8xl text-foreground mb-4">
-                Mural de Recados
-              </h1>
-              <p className="font-sans-elegant text-sm md:text-base text-accent max-w-lg mx-auto leading-relaxed">
-                Deixe uma mensagem especial para Isadora & Bernardo
-              </p>
-            </motion.div>
-          </div>
-        </div> */}
 
         <div className="container mx-auto px-6 py-24 max-w-3xl">
           {/* Form */}

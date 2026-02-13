@@ -17,6 +17,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 const giftCategories = [
   {
@@ -320,38 +321,40 @@ export default function GiftsPage() {
                     {category.items.map((item) => (
                       <div
                         key={item.name}
-                        className={`border border-border rounded-sm p-5 transition-shadow hover:shadow-md ${
+                        className={`flex flex-col justify-between border border-border rounded-sm p-5 transition-shadow hover:shadow-md ${
                           item.claimed
                             ? 'bg-secondary/20 opacity-60'
                             : 'bg-card'
                         }`}
                       >
-                        <div className="overflow mb-4">
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            width="300"
-                            height="300"
-                          />
+                        <div>
+                          <div className="overflow mb-4">
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              width="300"
+                              height="300"
+                            />
+                          </div>
+                          <div className="flex items-start justify-between mb-3">
+                            <ShoppingBag className="w-4 h-4 text-accent/60 mt-0.5" />
+                            {item.claimed && (
+                              <span className="font-sans-elegant text-[10px] tracking-wider uppercase bg-accent/15 text-accent px-2 py-0.5 rounded-full">
+                                Escolhido
+                              </span>
+                            )}
+                          </div>
+                          <h3 className="text-lg font-semibold text-foreground mb-1 leading-snug">
+                            {item.name}
+                          </h3>
+                          <p className="font-sans-elegant text-md text-muted-foreground">
+                            {item.price}
+                          </p>
                         </div>
-                        <div className="flex items-start justify-between mb-3">
-                          <ShoppingBag className="w-4 h-4 text-accent/60 mt-0.5" />
-                          {item.claimed && (
-                            <span className="font-sans-elegant text-[10px] tracking-wider uppercase bg-accent/15 text-accent px-2 py-0.5 rounded-full">
-                              Escolhido
-                            </span>
-                          )}
-                        </div>
-                        <h3 className="text-lg font-semibold text-foreground mb-1 leading-snug">
-                          {item.name}
-                        </h3>
-                        <p className="font-sans-elegant text-md text-muted-foreground">
-                          {item.price}
-                        </p>
                         {!item.claimed && (
-                          <button className="mt-3 w-full font-sans-elegant text-xs tracking-wider uppercase bg-accent text-accent-foreground py-2 rounded-sm hover:bg-accent/90 transition-colors">
+                          <Button className="mt-3 w-full gold-gradient text-accent-foreground font-sans-elegant tracking-widest uppercase text-xs py-2 hover:opacity-90 transition-opacity">
                             Quero presentear
-                          </button>
+                          </Button>
                         )}
                       </div>
                     ))}

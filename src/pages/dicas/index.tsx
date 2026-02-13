@@ -94,14 +94,12 @@ const tips = [
     title: 'Dress Code: Traje Social',
     description:
       'Elegância é a palavra-chave! Homens: terno ou blazer com calça social. Mulheres: vestido midi ou longo, conjuntos elegantes.',
-    highlight: true,
   },
   {
     icon: AlertTriangle,
     title: 'Cores a Evitar',
     description:
       'Por favor, evite branco, off-white, creme e azul marinho — essas cores são reservadas para os noivos e padrinhos.',
-    highlight: true,
   },
   {
     icon: CheckCircle,
@@ -210,21 +208,11 @@ const Dicas = () => {
                   key={tip.title}
                   {...fadeUp}
                   transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className={`border rounded-sm p-6 ${
-                    tip.highlight
-                      ? 'bg-accent/5 border-accent/30'
-                      : 'bg-card border-border'
-                  }`}
+                  className="border rounded-sm p-6 bg-card border-border"
                 >
                   <div className="flex items-start gap-4">
-                    <div
-                      className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
-                        tip.highlight ? 'bg-accent/15' : 'bg-accent/10'
-                      }`}
-                    >
-                      <tip.icon
-                        className={`w-5 h-5 ${tip.highlight ? 'text-accent' : 'text-accent'}`}
-                      />
+                    <div className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-accent/10">
+                      <tip.icon className="w-5 h-5 text-accent" />
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-foreground mb-1">
