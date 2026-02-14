@@ -5,8 +5,8 @@ const confirmPresence = async (payload: IGuest) => {
   try {
     const res = await api.post('/guests/register', payload);
     return res.data;
-  } catch (e) {
-    throw e;
+  } catch (error) {
+    throw error;
   }
 };
 

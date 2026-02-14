@@ -4,8 +4,8 @@ const hello = async () => {
   try {
     const res = await api.get('/');
     return res.data;
-  } catch (e) {
-    throw e;
+  } catch (error) {
+    throw error;
   }
 };
 

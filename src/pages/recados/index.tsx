@@ -1,67 +1,74 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Send, MessageCircleHeart, Quote } from 'lucide-react';
+import { Send, MessageCircleHeart, Quote, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import Head from 'next/head';
-
-interface Message {
-  id: string;
-  name: string;
-  message: string;
-  date: string;
-  liked: boolean;
-}
+import { IMessage } from '@/models/message.model';
+import { format } from 'date-fns';
+import { listMessages, sendMessage } from '@/api/lib/messages';
+import { ptBR } from 'date-fns/locale';
+import { SafeHtml } from '@/components/wedding/SafeHtml';
 
 const Mensagens = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<IMessage[]>([]);
   const [name, setName] = useState('');
   const [text, setText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingList, setIsLoadingList] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
-    const saved = localStorage.getItem('wedding-messages');
-    if (saved) {
-      setMessages(JSON.parse(saved));
-    }
+    fetchMessages();
   }, []);
-
-  const saveMessages = (msgs: Message[]) => {
-    setMessages(msgs);
-    localStorage.setItem('wedding-messages', JSON.stringify(msgs));
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!name.trim() || !text.trim()) return;
 
-    const newMessage: Message = {
-      id: Date.now().toString(),
+    setIsLoading(true);
+
+    const payload: Partial<IMessage> = {
       name: name.trim().slice(0, 100),
       message: text.trim().slice(0, 2000),
-      date: new Date().toLocaleDateString('pt-BR', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-      }),
-      liked: false,
     };
 
-    saveMessages([newMessage, ...messages]);
-    setName('');
-    setText('');
-    toast({
-      title: 'Mensagem enviada! 💌',
-      description: 'Obrigado pelo carinho!',
-    });
+    sendMessage(payload)
+      .then(({ title, message }) => {
+        setName('');
+        setText('');
+        toast({ title, description: message });
+        fetchMessages();
+      })
+      .catch((error) => {
+        toast({
+          title: 'Algo deu errado',
+          description: error.data.message,
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
-  const toggleLike = (id: string) => {
-    saveMessages(
-      messages.map((m) => (m.id === id ? { ...m, liked: !m.liked } : m)),
-    );
+  const fetchMessages = () => {
+    setIsLoadingList(true);
+    listMessages()
+      .then((data) => {
+        setMessages(data);
+      })
+      .catch((error) => {
+        toast({
+          title: 'Algo deu errado',
+          description: error.data.message,
+        });
+      })
+      .finally(() => {
+        setIsLoadingList(false);
+      });
   };
 
   return (
@@ -154,10 +161,20 @@ const Mensagens = () => {
                 <span className="text-xs text-navy/80">{text.length}/2000</span>
                 <Button
                   type="submit"
+                  disabled={isLoading}
                   className="gold-gradient text-accent-foreground hover:opacity-90 transition-opacity gap-2"
                 >
-                  <Send className="w-4 h-4 mr-2" />
-                  Enviar mensagem
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Enviando...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4 mr-2" />
+                      Enviar mensagem
+                    </>
+                  )}
                 </Button>
               </div>
             </div>
@@ -168,7 +185,7 @@ const Mensagens = () => {
             <AnimatePresence mode="popLayout">
               {messages.map((msg, i) => (
                 <motion.div
-                  key={msg.id}
+                  key={msg._id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
@@ -179,34 +196,33 @@ const Mensagens = () => {
                     className="absolute top-4 right-4 text-gold/20"
                     size={24}
                   />
-                  <p className="font-serif text-navy/80 leading-relaxed mb-4 pr-8">
-                    {msg.message}
-                  </p>
+                  <div className="font-serif text-navy/80 leading-relaxed mb-4 pr-8">
+                    <SafeHtml content={msg.message} />
+                  </div>
                   <div className="flex items-center justify-between">
                     <div>
                       <span className="font-sans-elegant text-sm font-semibold text-navy">
                         {msg.name}
                       </span>
                       <span className="text-navy/40 text-xs ml-3">
-                        {msg.date}
+                        {format(msg.createdAt, "dd 'de' MMMM 'de' yyyy", {
+                          locale: ptBR,
+                        })}
                       </span>
                     </div>
-                    <button
-                      onClick={() => toggleLike(msg.id)}
-                      className="text-navy/30 hover:text-rose-400 transition-colors"
-                    >
-                      <Heart
-                        size={18}
-                        fill={msg.liked ? 'currentColor' : 'none'}
-                        className={msg.liked ? 'text-rose-400' : ''}
-                      />
-                    </button>
                   </div>
                 </motion.div>
               ))}
             </AnimatePresence>
 
-            {messages.length === 0 && (
+            {isLoadingList && (
+              <div className="flex flex-col items-center justify-center gap-2 py-12 text-navy/80 font-sans-elegant">
+                <Loader2 className="w-8 h-8 mr-2 animate-spin" />
+                Carregando mensagens...
+              </div>
+            )}
+
+            {messages.length === 0 && !isLoadingList && (
               <p className="text-center text-navy/80 font-sans-elegant py-12">
                 Seja o primeiro a deixar uma mensagem! 💕
               </p>
