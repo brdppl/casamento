@@ -45,7 +45,7 @@ const Mensagens = () => {
       })
       .catch((error) => {
         toast({
-          title: 'Algo deu errado',
+          title: 'Algo deu errado 😭',
           description: error.data.message,
         });
       })
@@ -62,7 +62,7 @@ const Mensagens = () => {
       })
       .catch((error) => {
         toast({
-          title: 'Algo deu errado',
+          title: 'Algo deu errado 😭',
           description: error.data.message,
         });
       })

@@ -1,176 +1,32 @@
 import Head from 'next/head';
 import { motion } from 'framer-motion';
-import {
-  Gift,
-  CreditCard,
-  Home,
-  ShoppingBag,
-  UtensilsCrossed,
-  Armchair,
-  Bath,
-  Plane,
-} from 'lucide-react';
+import { Gift, CreditCard, ShoppingBag, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-
-const giftCategories = [
-  {
-    icon: Home,
-    title: 'Casa & Decoração',
-    items: [
-      {
-        name: 'Jogo de cama king',
-        price: 'R$ 450',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: false,
-      },
-      {
-        name: 'Kit de toalhas bordadas',
-        price: 'R$ 280',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: false,
-      },
-      {
-        name: 'Conjunto de almofadas decorativas',
-        price: 'R$ 200',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: true,
-      },
-      {
-        name: 'Luminária de mesa',
-        price: 'R$ 350',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: false,
-      },
-    ],
-  },
-  {
-    icon: UtensilsCrossed,
-    title: 'Cozinha',
-    items: [
-      {
-        name: 'Jogo de panelas antiaderente',
-        price: 'R$ 600',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: false,
-      },
-      {
-        name: 'Aparelho de jantar 30 peças',
-        price: 'R$ 800',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: true,
-      },
-      {
-        name: 'Conjunto de taças de cristal',
-        price: 'R$ 450',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: false,
-      },
-      {
-        name: 'Cafeteira espresso',
-        price: 'R$ 900',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: false,
-      },
-    ],
-  },
-  {
-    icon: Armchair,
-    title: 'Sala de Estar',
-    items: [
-      {
-        name: 'Manta de sofá em lã',
-        price: 'R$ 250',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: false,
-      },
-      {
-        name: 'Vaso decorativo artesanal',
-        price: 'R$ 180',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: false,
-      },
-      {
-        name: 'Conjunto de porta-retratos',
-        price: 'R$ 150',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: true,
-      },
-      {
-        name: 'Difusor de aromas',
-        price: 'R$ 120',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: false,
-      },
-    ],
-  },
-  {
-    icon: Bath,
-    title: 'Banho & Bem-estar',
-    items: [
-      {
-        name: 'Roupão de banho casal',
-        price: 'R$ 320',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: false,
-      },
-      {
-        name: 'Kit spa relaxante',
-        price: 'R$ 200',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: false,
-      },
-      {
-        name: 'Toalhas de rosto premium',
-        price: 'R$ 150',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: true,
-      },
-    ],
-  },
-  {
-    icon: Plane,
-    title: 'Lua de Mel',
-    items: [
-      {
-        name: 'Jantar romântico',
-        price: 'R$ 500',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: false,
-      },
-      {
-        name: 'Passeio turístico',
-        price: 'R$ 400',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: false,
-      },
-      {
-        name: 'Dia no spa do hotel',
-        price: 'R$ 600',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: false,
-      },
-      {
-        name: 'Contribuição livre',
-        price: 'Valor livre',
-        image: 'https://picsum.photos/id/199/300/300',
-        claimed: false,
-      },
-    ],
-  },
-];
+import { IPresent } from '@/models/present.model';
+import { checkoutPresent, listPresents } from '@/api/lib/presents';
+import { currency } from '@/lib/utils';
+import { presentCategories } from '@/const/present-categories';
+import { useToast } from '@/hooks/use-toast';
 
 const PIXKey = 'b83367f9-5b5f-4e2b-aed2-960e559a3aed';
 
-export default function GiftsPage() {
+export default function PresentsPage() {
   const [open, setOpen] = useState(false);
   const [tooltipText, setTooltipText] = useState('Copiar chave PIX');
+  const [categories, setCategories] = useState(presentCategories);
+  const [isLoading, setIsLoading] = useState({
+    loading: false,
+    itemId: '',
+  });
+  const [isLoadingList, setIsLoadingList] = useState(false);
+  const { toast } = useToast();
 
   const handleCopyPIXKey = () => {
     navigator.clipboard.writeText(PIXKey);
@@ -181,6 +37,48 @@ export default function GiftsPage() {
       setOpen(false);
       setTooltipText('Copiar chave PIX');
     }, 2000);
+  };
+
+  useEffect(() => {
+    setIsLoadingList(true);
+    listPresents()
+      .then((data) => {
+        setCategories((value) => {
+          const newValue = value.map((val) => ({
+            ...val,
+            items: data.filter((d) => d.idCategory === val.id),
+          }));
+
+          return newValue;
+        });
+      })
+      .catch((error) => {
+        toast({
+          title: 'Algo deu errado 😭',
+          description: error.data.message,
+        });
+      })
+      .finally(() => {
+        setIsLoadingList(false);
+      });
+  }, []);
+
+  const hendleBuy = (id: string) => {
+    setIsLoading({ loading: true, itemId: id });
+    checkoutPresent(id)
+      .then(({ url }: { url: string }) => {
+        console.log('COMPRA REALIZADA', url);
+        window.open(url, '_self');
+      })
+      .catch((error) => {
+        toast({
+          title: 'Algo deu errado 😭',
+          description: error.data.message,
+        });
+      })
+      .finally(() => {
+        setIsLoading({ loading: false, itemId: '' });
+      });
   };
 
   return (
@@ -296,71 +194,94 @@ export default function GiftsPage() {
           </div>
         </section>
 
-        {/* Gift Categories */}
+        {/* Present Categories */}
         <section className="px-6 pb-24">
           <div className="container mx-auto max-w-5xl">
             <div className="space-y-12">
-              {giftCategories.map((category, catIdx) => (
-                <motion.div
-                  key={category.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{ duration: 0.6, delay: catIdx * 0.1 }}
-                >
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent/10">
-                      <category.icon className="w-5 h-5 text-accent" />
-                    </div>
-                    <h2 className="text-2xl font-semibold text-foreground">
-                      {category.title}
-                    </h2>
-                  </div>
+              {isLoadingList && (
+                <div className="flex flex-col items-center justify-center gap-2 py-12 text-navy/80 font-sans-elegant">
+                  <Loader2 className="w-8 h-8 mr-2 animate-spin" />
+                  Carregando a lista de presentes...
+                </div>
+              )}
 
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {category.items.map((item) => (
-                      <div
-                        key={item.name}
-                        className={`flex flex-col justify-between border border-border rounded-sm p-5 transition-shadow hover:shadow-md ${
-                          item.claimed
-                            ? 'bg-secondary/20 opacity-60'
-                            : 'bg-card'
-                        }`}
-                      >
-                        <div>
-                          <div className="overflow mb-4">
-                            <Image
-                              src={item.image}
-                              alt={item.name}
-                              width="300"
-                              height="300"
-                            />
-                          </div>
-                          <div className="flex items-start justify-between mb-3">
-                            <ShoppingBag className="w-4 h-4 text-accent/60 mt-0.5" />
-                            {item.claimed && (
-                              <span className="font-sans-elegant text-[10px] tracking-wider uppercase bg-accent/15 text-accent px-2 py-0.5 rounded-full">
-                                Escolhido
-                              </span>
-                            )}
-                          </div>
-                          <h3 className="text-lg font-semibold text-foreground mb-1 leading-snug">
-                            {item.name}
-                          </h3>
-                          <p className="font-sans-elegant text-md text-muted-foreground">
-                            {item.price}
-                          </p>
-                        </div>
-                        {!item.claimed && (
-                          <Button className="mt-3 w-full gold-gradient text-accent-foreground font-sans-elegant tracking-widest uppercase text-xs py-2 hover:opacity-90 transition-opacity">
-                            Quero presentear
-                          </Button>
-                        )}
+              {!isLoadingList &&
+                categories.map((category, catIdx) => (
+                  <motion.div
+                    key={category.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-50px' }}
+                    transition={{ duration: 0.6, delay: catIdx * 0.1 }}
+                  >
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent/10">
+                        <category.icon className="w-5 h-5 text-accent" />
                       </div>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
+                      <h2 className="text-2xl font-semibold text-foreground">
+                        {category.title}
+                      </h2>
+                    </div>
+
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                      {category.items.map((item: IPresent) => (
+                        <div
+                          key={item._id}
+                          className={`flex flex-col justify-between border border-border rounded-sm p-5 transition-shadow hover:shadow-md ${
+                            item.purchased
+                              ? 'bg-secondary/20 opacity-60'
+                              : 'bg-card'
+                          }`}
+                        >
+                          <div>
+                            <div className="overflow mb-4">
+                              <Image
+                                src={item.photo}
+                                alt={item.name}
+                                width="300"
+                                height="300"
+                              />
+                            </div>
+                            <div className="flex items-start justify-between mb-3">
+                              <ShoppingBag className="w-4 h-4 text-accent/60 mt-0.5" />
+                              {item.purchased && (
+                                <span className="font-sans-elegant text-[10px] tracking-wider uppercase bg-accent/15 text-accent px-2 py-0.5 rounded-full">
+                                  Escolhido
+                                </span>
+                              )}
+                            </div>
+                            <h3 className="text-lg font-semibold text-foreground mb-1 leading-snug">
+                              {item.name}
+                            </h3>
+                            <p className="font-sans-elegant text-md text-muted-foreground">
+                              {currency(item.price)}
+                            </p>
+                          </div>
+                          {!item.purchased && (
+                            <Button
+                              className="mt-3 w-full gold-gradient text-accent-foreground font-sans-elegant tracking-widest uppercase text-xs py-2 hover:opacity-90 transition-opacity"
+                              onClick={() => hendleBuy(item._id)}
+                              disabled={
+                                isLoading.loading &&
+                                isLoading.itemId === item._id
+                              }
+                            >
+                              {isLoading.loading &&
+                              isLoading.itemId === item._id ? (
+                                <>
+                                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                  Preparando...
+                                </>
+                              ) : (
+                                <>Quero presentear</>
+                              )}
+                            </Button>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                ))}
             </div>
           </div>
         </section>
