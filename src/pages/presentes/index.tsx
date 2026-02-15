@@ -10,7 +10,12 @@ import {
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { IPresent } from '@/models/present.model';
-import { checkoutPresent, listPresents } from '@/api/lib/presents';
+import {
+  checkoutPresent,
+  checkoutPresentV2,
+  checkoutPresentV3,
+  listPresents,
+} from '@/api/lib/presents';
 import { currency } from '@/lib/utils';
 import { presentCategories } from '@/const/present-categories';
 import { useToast } from '@/hooks/use-toast';
@@ -63,9 +68,19 @@ export default function PresentsPage() {
       });
   }, []);
 
+  const checkout = (id: string) => {
+    if (process.env.NEXT_PUBLIC_PAYMENT_API === '1') {
+      return checkoutPresent(id);
+    } else if (process.env.NEXT_PUBLIC_PAYMENT_API === '2') {
+      return checkoutPresentV2(id);
+    }
+
+    return checkoutPresentV3(id);
+  };
+
   const hendleBuy = (id: string) => {
     setIsLoading({ loading: true, itemId: id });
-    checkoutPresent(id)
+    checkout(id)
       .then(({ url }: { url: string }) => {
         console.log('COMPRA REALIZADA', url);
         window.open(url, '_self');

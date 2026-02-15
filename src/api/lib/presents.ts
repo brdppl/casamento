@@ -3,7 +3,25 @@ import api from '../api';
 
 const checkoutPresent = async (id: string) => {
   try {
-    const res = await api.post(`/presents/${id}/checkout`);
+    const res = await api.post(`/presents/${id}/checkout/v1`);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const checkoutPresentV2 = async (id: string) => {
+  try {
+    const res = await api.post(`/presents/${id}/checkout/v2`);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const checkoutPresentV3 = async (id: string) => {
+  try {
+    const res = await api.post(`/presents/${id}/checkout/v3`);
     return res.data;
   } catch (error) {
     throw error;
@@ -28,4 +46,10 @@ const listOnePresent = async (id: string): Promise<IPresent> => {
   }
 };
 
-export { checkoutPresent, listPresents, listOnePresent };
+export {
+  checkoutPresent,
+  checkoutPresentV2,
+  checkoutPresentV3,
+  listPresents,
+  listOnePresent,
+};
