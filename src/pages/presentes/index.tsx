@@ -60,7 +60,7 @@ export default function PresentsPage() {
       .catch((error) => {
         toast({
           title: 'Algo deu errado 😭',
-          description: error.data.message,
+          description: error?.data?.message,
         });
       })
       .finally(() => {
@@ -82,13 +82,13 @@ export default function PresentsPage() {
     setIsLoading({ loading: true, itemId: id });
     checkout(id)
       .then(({ url }: { url: string }) => {
-        console.log('COMPRA REALIZADA', url);
         window.open(url, '_self');
       })
       .catch((error) => {
+        setIsLoading({ loading: false, itemId: '' });
         toast({
           title: 'Algo deu errado 😭',
-          description: error.data.message,
+          description: error?.data?.message,
         });
       });
   };

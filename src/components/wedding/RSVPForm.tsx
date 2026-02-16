@@ -58,7 +58,7 @@ const RSVPForm = () => {
         .catch((error) => {
           toast({
             title: 'Algo deu errado 😭',
-            description: error.data.message,
+            description: error?.data?.message,
           });
         })
         .finally(() => {
