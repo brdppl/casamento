@@ -90,9 +90,6 @@ export default function PresentsPage() {
           title: 'Algo deu errado 😭',
           description: error.data.message,
         });
-      })
-      .finally(() => {
-        setIsLoading({ loading: false, itemId: '' });
       });
   };
 
