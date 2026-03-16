@@ -2,15 +2,23 @@
 const nextConfig = {
   reactStrictMode: true,
   eslint: {
-    ignoreDuringBuilds: true
+    ignoreDuringBuilds: true,
   },
   images: {
-    remotePatterns: [{
+    remotePatterns: [
+      {
         protocol: 'https',
         hostname: 'picsum.photos',
         port: '',
         pathname: '**',
-      }],
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '**',
+      },
+    ],
   },
 };
 

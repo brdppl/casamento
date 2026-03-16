@@ -251,7 +251,12 @@ export default function PresentsPage() {
                                 src={item.photo}
                                 alt={item.name}
                                 width="300"
-                                height="300"
+                                height="230"
+                                style={{
+                                  height: '230px',
+                                  width: '100%',
+                                  objectFit: 'cover',
+                                }}
                               />
                             </div>
                             <div className="flex items-start justify-between mb-3">
