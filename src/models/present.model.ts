@@ -10,6 +10,7 @@ export interface IPresent {
   photo: string;
   purchased: boolean;
   purchasedBy?: string;
+  amount?: number;
 }
 
 export interface IPresentCategory {
