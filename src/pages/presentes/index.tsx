@@ -261,16 +261,14 @@ export default function PresentsPage() {
                             </div>
                             <div className="flex items-start justify-between mb-3">
                               <ShoppingBag className="w-4 h-4 text-accent/60 mt-0.5" />
-                              {item.amount &&
-                                item.amount > 0 &&
-                                !item.purchased && (
-                                  <span className="font-sans-elegant text-[10px] tracking-wider uppercase bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
-                                    {item.amount}{' '}
-                                    {item.amount > 1
-                                      ? 'disponíveis'
-                                      : 'disponível'}
-                                  </span>
-                                )}
+                              {item.amount! > 0 && !item.purchased && (
+                                <span className="font-sans-elegant text-[10px] tracking-wider uppercase bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
+                                  {item.amount}{' '}
+                                  {item.amount! > 1
+                                    ? 'disponíveis'
+                                    : 'disponível'}
+                                </span>
+                              )}
                               {item.purchased && (
                                 <span className="font-sans-elegant text-[10px] tracking-wider uppercase bg-accent/15 text-accent px-2 py-0.5 rounded-full">
                                   Escolhido
