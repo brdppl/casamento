@@ -21,3 +21,9 @@ export interface IPresentCategory {
   title: string;
   items: IPresent[];
 }
+
+export interface IPurchasedMessage {
+  name: string;
+  message: string;
+  present: string;
+}

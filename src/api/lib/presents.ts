@@ -1,4 +1,4 @@
-import { IPresent } from '@/models/present.model';
+import { IPresent, IPurchasedMessage } from '@/models/present.model';
 import api from '../api';
 
 const checkoutPresent = async (id: string) => {
@@ -46,10 +46,20 @@ const listOnePresent = async (id: string): Promise<IPresent> => {
   }
 };
 
+const sendMessage = async (payload: IPurchasedMessage) => {
+  try {
+    const res = await api.post('/presents/message', payload);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export {
   checkoutPresent,
   checkoutPresentV2,
   checkoutPresentV3,
   listPresents,
   listOnePresent,
+  sendMessage,
 };
